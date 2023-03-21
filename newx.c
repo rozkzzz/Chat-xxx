@@ -104,31 +104,15 @@ void viewList()
         temp = last->next;
         do {
         	if(temp->client != -1){
-        		printf("\ncli-%d say: %s\n", temp->client , temp->line);
+        		printf("cli-%d say: %s", temp->client , temp->line);
             	fflush(stdout);
             	temp = temp->next;
         	}else{
-        		printf("%s\n", temp->line);
+        		printf("%s", temp->line);
             	fflush(stdout);
             	temp = temp->next;
         	}
             
-        } while (temp != last->next);
-    }
-}
-
-void viewl(){
-	if (last == NULL)
-        printf("\nList is empty\n");
-
-    // Else print the list
-    else {
-        struct hnode* temp;
-        temp = last->next;
-        
-        do {
-        	printf("%s-> ",temp->line);
-        	temp = temp->next;
         } while (temp != last->next);
     }
 }
@@ -161,8 +145,6 @@ int main(int argc, char *argv[]){
 	fdmax = conn_fd;
         
     char* myid = malloc(11 * sizeof(char));
-
-    
 
 	while(1){
 
@@ -198,7 +180,7 @@ int main(int argc, char *argv[]){
 
 		    	//If there is data coming from the keyboard, send it to the server.
 	            n = write_full(conn_fd, line, MAXLINE);
-	            ptrlen++;
+	            
                 if(ptrlen>10) //Check link list =! 10
                 	deletefirst();
                 int lenline = strlen(line);
@@ -207,7 +189,8 @@ int main(int argc, char *argv[]){
     			myid[2] = line[6];
     			myid[3] = '\0';
                 addatlast(atoi(myid),lenline,line);
-                viewl();
+                ptrlen++;
+                viewList();
                 continue;
 		    }
 	  	}
@@ -231,16 +214,17 @@ int main(int argc, char *argv[]){
 				
 				//Read data from the server and display it on the client-side screen.
 				fputs(line, stdout);
-				ptrlen++;
+				
                 if(ptrlen>10) //Check link list =! 10
                 	deletefirst();
                 int lenline = strlen(line);
 
                	printf("banana = %d\n",lenline);
                 if(lenline!=10){
+                	ptrlen++;
                 	printf("banana in= %d\n",lenline);
                 	addatlast(-1,lenline,line);
-                	viewl();
+                	viewList();
                 }
 				fflush(stdout);
 			}
