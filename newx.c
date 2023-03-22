@@ -104,7 +104,7 @@ void viewList()
         temp = last->next;
         do {
         	if(temp->client != -1){
-        		printf("cli-%d say: %s", temp->client , temp->line);
+        		printf("\ncli-%d say: %s", temp->client , temp->line);
             	fflush(stdout);
             	temp = temp->next;
         	}else{
@@ -116,7 +116,7 @@ void viewList()
         } while (temp != last->next);
     }
 }
-
+char myid[4];;
 int main(int argc, char *argv[]){
 
     int n, m, ptrlen=0;
@@ -144,7 +144,7 @@ int main(int argc, char *argv[]){
 
 	fdmax = conn_fd;
         
-    char* myid = malloc(11 * sizeof(char));
+    
 
 	while(1){
 
@@ -184,13 +184,11 @@ int main(int argc, char *argv[]){
                 if(ptrlen>10) //Check link list =! 10
                 	deletefirst();
                 int lenline = strlen(line);
-    			myid[0] = line[4];
-    			myid[1] = line[5];
-    			myid[2] = line[6];
-    			myid[3] = '\0';
+                if(lenline == 1)
+                	continue;
+                
                 addatlast(atoi(myid),lenline,line);
                 ptrlen++;
-                viewList();
                 continue;
 		    }
 	  	}
@@ -218,13 +216,15 @@ int main(int argc, char *argv[]){
                 if(ptrlen>10) //Check link list =! 10
                 	deletefirst();
                 int lenline = strlen(line);
-
-               	printf("banana = %d\n",lenline);
+                if(lenline == 10){
+                	myid[0] = line[4];
+    				myid[1] = line[5];
+    				myid[2] = line[6];
+    				myid[3] = '\0';
+                }
                 if(lenline!=10){
                 	ptrlen++;
-                	printf("banana in= %d\n",lenline);
                 	addatlast(-1,lenline,line);
-                	viewList();
                 }
 				fflush(stdout);
 			}
